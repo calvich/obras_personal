@@ -57,14 +57,82 @@ nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid 
 <nav><button id="navSites" class="active" onclick="showPage('sites')"><span>▦</span>Obras</button><button id="navPeople" onclick="showPage('people')"><span>♙</span>Personal</button></nav>
 <div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()"><div class="modal"><h3 id="modalTitle">Nuevo</h3><form id="editor"></form></div></div>
 <div class="toast" id="toast"></div><div class="drag-ghost" id="ghost"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-const KEY='obras-personal-alfa-v1';
-const starterData={sites:[{id:'s1',name:'Obra Centro',address:'Reforma de viviendas',note:''},{id:'s2',name:'Residencial Mar',address:'Construcción nueva',note:''},{id:'s3',name:'Nave Industrial',address:'Polígono · Fase 2',note:''}],people:[{id:'p1',name:'Carlos García',job:'Oficial',phone:'',site:'s1'},{id:'p2',name:'Javier López',job:'Peón',phone:'',site:'s1'},{id:'p3',name:'Marta Ruiz',job:'Encargada',phone:'',site:'s2'},{id:'p4',name:'David Martín',job:'Electricista',phone:'',site:null},{id:'p5',name:'Sergio Vidal',job:'Fontanero',phone:'',site:'s3'}]};
-function loadData(){try{const raw=localStorage.getItem(KEY);if(raw){const parsed=JSON.parse(raw);if(parsed&&Array.isArray(parsed.sites)&&Array.isArray(parsed.people))return parsed}}catch(e){console.warn('No se pudo leer el almacenamiento local',e)}return JSON.parse(JSON.stringify(starterData))}
-let data=loadData();
+const firebaseConfig = {
+  apiKey: "AIzaSyB88EwWI284WsM0e6rfg-1G_7bC-4UtSwo",
+  authDomain: "obraspersonal-7e29c.firebaseapp.com",
+  projectId: "obraspersonal-7e29c",
+  storageBucket: "obraspersonal-7e29c.firebasestorage.app",
+  messagingSenderId: "18222919242",
+  appId: "1:18222919242:web:c461f7adae1640b08900b3",
+  measurementId: "G-1H16SV6QYN"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+const sharedDoc = db.collection("sharedApp").doc("state");
+
+let data = { sites: [], people: [] };
+let firebaseReady = false;
+
+async function startFirebase() {
+  try {
+    await auth.signInAnonymously();
+
+    const initial = await sharedDoc.get();
+
+    if (!initial.exists) {
+      await sharedDoc.set({ sites: [], people: [] });
+    }
+
+    sharedDoc.onSnapshot(snapshot => {
+      if (snapshot.exists) {
+        const saved = snapshot.data();
+        if (Array.isArray(saved.sites) && Array.isArray(saved.people)) {
+          data = saved;
+          firebaseReady = true;
+          render();
+        }
+      }
+    }, error => {
+      console.error("Error de sincronización:", error);
+      toast("Error al sincronizar con Firebase");
+    });
+
+  } catch (error) {
+    console.error("Error de Firebase:", error);
+    const box = document.getElementById("runtimeError");
+    box.style.display = "block";
+    box.textContent = "No se pudo conectar con Firebase: " + error.message;
+  }
+}
+
+startFirebase();
 let expanded=new Set(['s1']), editMode=null, editId=null;
 const $=id=>document.getElementById(id);
-function save(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){console.warn('No se pudo guardar en este navegador',e);toast('No se pudo guardar: revisa el almacenamiento del navegador')}render()}
+async function save(){
+  if(!firebaseReady){
+    toast('Espera: conectando con Firebase');
+    return;
+  }
+
+  try{
+    await sharedDoc.set({
+      sites: data.sites,
+      people: data.people
+    });
+    render();
+    toast('Cambios guardados y sincronizados');
+  }catch(e){
+    console.error('Error al guardar:',e);
+    toast('Error al guardar en Firebase');
+  }
+}
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function initials(n){return n.split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()}
 function isRecent(p){return !!p.movedAt && Date.now()-p.movedAt<10*60*60*1000}
