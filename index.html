@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101c2c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Obras">
+<title>Obras · Personal</title>
+<style>
+:root{--bg:#f3f5f8;--ink:#172437;--muted:#718096;--navy:#101c2c;--green:#1d9b72;--line:#e4e9ef;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:calc(82px + env(safe-area-inset-bottom))}
+header{background:var(--navy);color:white;padding:calc(18px + env(safe-area-inset-top)) 18px 20px;border-radius:0 0 24px 24px}
+.top{display:flex;align-items:center;justify-content:space-between}.brand{font-weight:800;font-size:20px;letter-spacing:-.4px}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.3px;color:#aebdcd;margin-bottom:5px}
+h1{font-size:25px;margin:18px 0 5px;letter-spacing:-.7px}header p{margin:0;color:#c3cfdb;font-size:13px}
+main{padding:18px 16px;max-width:760px;margin:auto}.section-head{display:flex;justify-content:space-between;align-items:center;margin:4px 0 13px}.section-head h2{font-size:17px;margin:0}
+.btn{min-height:44px;touch-action:manipulation;border:0;border-radius:12px;background:var(--green);color:white;font-weight:700;padding:11px 14px;font-size:13px}.btn.secondary{background:#e8f4ef;color:#147653}.btn.ghost{background:#eef1f5;color:#334155}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:17px}.stat{background:#1b2b40;border:1px solid #314156;border-radius:14px;padding:11px}.stat b{display:block;font-size:20px}.stat span{font-size:10px;color:#b8c5d2;text-transform:uppercase;letter-spacing:.7px}
+.site{background:white;border:1px solid var(--line);border-radius:17px;margin:11px 0;overflow:hidden;box-shadow:0 3px 12px #1b2b4008}.site-head{padding:15px;min-height:72px;touch-action:manipulation;display:flex;align-items:center;gap:12px;cursor:pointer}.site-icon{width:43px;height:43px;border-radius:13px;background:#e8f4ef;color:#147653;display:grid;place-items:center;font-size:21px;flex:none}.site-info{min-width:0;flex:1}.site-info b{display:block;font-size:15px}.site-info small{color:var(--muted);display:block;margin-top:4px}.count{font-size:12px;color:#147653;background:#e8f4ef;border-radius:20px;padding:6px 9px;font-weight:700;white-space:nowrap}.chev{color:#8a98a8;font-size:19px}
+.site-body{border-top:1px solid var(--line);padding:12px 14px 14px;background:#fbfcfd}.site-body[hidden]{display:none}.drop-hint{font-size:11px;color:#8996a5;margin:0 0 9px}.worker-list{display:flex;flex-wrap:wrap;gap:8px;min-height:35px}.person{min-height:42px;display:flex;align-items:center;gap:7px;background:white;border:1px solid #e3e9ef;border-radius:12px;padding:7px 9px;font-size:12px;touch-action:pan-y;user-select:none;cursor:pointer}.person.recent{background:#fff5c9;border-color:#e9c94c}.person.recent .avatar{background:#f5dc79;color:#6c5100}.avatar{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#e9eef8;color:#344c70;font-size:10px;font-weight:800}.person small{display:block;color:#8290a0;font-size:10px;margin-top:2px}.person.dragging{opacity:.35}.empty{color:#9aa5b2;font-size:12px;padding:8px 2px}
+.pool{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:20px}.pool-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.pool-title b{font-size:14px}.pool-title span{font-size:11px;color:var(--muted)}
+.page{display:none}.page.active{display:block}
+.person-row{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin:9px 0}.person-row.recent{background:#fff9df;border-color:#e9c94c}.person-row .avatar{width:40px;height:40px;font-size:13px}.person-row .details{flex:1}.person-row b{font-size:14px}.person-row small{display:block;color:var(--muted);margin-top:4px}.tag{font-size:10px;color:#147653;background:#e8f4ef;padding:5px 8px;border-radius:20px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;padding:9px 16px calc(9px + env(safe-area-inset-bottom));z-index:5}nav button{flex:1;border:0;background:none;color:#8793a2;font-weight:650;font-size:11px;padding:10px 7px;min-height:54px;touch-action:manipulation}nav button span{display:block;font-size:20px;margin-bottom:3px}nav button.active{color:#16845f}
+.overlay{position:fixed;inset:0;background:#0d1828a6;display:none;align-items:flex-end;z-index:10}.overlay.show{display:flex}.modal{background:white;border-radius:22px 22px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));width:100%;max-height:88vh;overflow:auto}.modal h3{margin:0 0 16px;font-size:19px}.field{margin:12px 0}.field label{display:block;font-size:12px;font-weight:700;color:#526174;margin-bottom:6px}.field input,.field textarea{width:100%;border:1px solid #dce3eb;border-radius:11px;padding:13px;font:15px inherit;background:#fbfcfd}.field textarea{min-height:70px;resize:vertical}.modal-actions{display:flex;gap:9px;margin-top:18px}.modal-actions button{flex:1;padding:14px}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#172437;color:white;padding:10px 15px;border-radius:20px;font-size:12px;display:none;z-index:20;white-space:nowrap}
+.drag-ghost{position:fixed;z-index:30;pointer-events:none;background:#172437;color:white;padding:10px 13px;border-radius:12px;font-size:12px;box-shadow:0 8px 24px #0003;display:none}
+.site.drop-target{outline:2px dashed var(--green);outline-offset:2px}
+.note{font-size:11px;color:#8793a2;line-height:1.5;margin:14px 2px}
+@media(min-width:600px){main{padding:22px}.site-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.site{margin:0}.pool{margin-top:18px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="top"><div><div class="eyebrow">Panel de equipo</div><div class="brand">OBRAS <span style="color:#56c99c">·</span> PERSONAL</div></div><div style="font-size:22px">▦</div></div>
+ <h1 id="welcome">Organiza tu equipo.</h1><p>Asigna cada persona a su obra y mantenlo todo bajo control.</p>
+ <div class="stats"><div class="stat"><b id="statSites">0</b><span>Obras activas</span></div><div class="stat"><b id="statPeople">0</b><span>Trabajadores</span></div><div class="stat"><b id="statFree">0</b><span>Sin asignar</span></div></div>
+</header>
+<div id="runtimeError" style="display:none;margin:14px 16px;padding:12px;border-radius:12px;background:#fff0f0;color:#9b2525;font-size:12px"></div>
+<main>
+ <section id="sitesPage" class="page active">
+  <div class="section-head"><h2>Tus obras</h2><button class="btn" onclick="openSite()">＋ Nueva obra</button></div>
+  <div id="sites" class="site-grid"></div>
+  <section class="pool" id="pool" data-drop="unassigned">
+   <div class="pool-title"><b>Personal disponible</b><span id="freeCount">0 personas</span></div>
+   <p class="drop-hint">Arrastra desde aquí a una obra · También puedes mover personas entre obras</p>
+   <div class="worker-list" id="unassigned"></div>
+  </section>
+  <p class="note">Consejo: pulsa una obra para desplegar su equipo. Mantén pulsado un trabajador y arrástralo hasta otra obra para cambiar su asignación. Los movimientos recientes se marcan en amarillo durante 10 horas.</p>
+ </section>
+ <section id="peoplePage" class="page">
+  <div class="section-head"><h2>Personal</h2><button class="btn" onclick="openPerson()">＋ Nuevo</button></div>
+  <div id="people"></div>
+ </section>
+</main>
+<nav><button id="navSites" class="active" onclick="showPage('sites')"><span>▦</span>Obras</button><button id="navPeople" onclick="showPage('people')"><span>♙</span>Personal</button></nav>
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()"><div class="modal"><h3 id="modalTitle">Nuevo</h3><form id="editor"></form></div></div>
+<div class="toast" id="toast"></div><div class="drag-ghost" id="ghost"></div>
+<script>
+const KEY='obras-personal-alfa-v1';
+const starterData={sites:[{id:'s1',name:'Obra Centro',address:'Reforma de viviendas',note:''},{id:'s2',name:'Residencial Mar',address:'Construcción nueva',note:''},{id:'s3',name:'Nave Industrial',address:'Polígono · Fase 2',note:''}],people:[{id:'p1',name:'Carlos García',job:'Oficial',phone:'',site:'s1'},{id:'p2',name:'Javier López',job:'Peón',phone:'',site:'s1'},{id:'p3',name:'Marta Ruiz',job:'Encargada',phone:'',site:'s2'},{id:'p4',name:'David Martín',job:'Electricista',phone:'',site:null},{id:'p5',name:'Sergio Vidal',job:'Fontanero',phone:'',site:'s3'}]};
+function loadData(){try{const raw=localStorage.getItem(KEY);if(raw){const parsed=JSON.parse(raw);if(parsed&&Array.isArray(parsed.sites)&&Array.isArray(parsed.people))return parsed}}catch(e){console.warn('No se pudo leer el almacenamiento local',e)}return JSON.parse(JSON.stringify(starterData))}
+let data=loadData();
+let expanded=new Set(['s1']), editMode=null, editId=null;
+const $=id=>document.getElementById(id);
+function save(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){console.warn('No se pudo guardar en este navegador',e);toast('No se pudo guardar: revisa el almacenamiento del navegador')}render()}
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function initials(n){return n.split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()}
+function isRecent(p){return !!p.movedAt && Date.now()-p.movedAt<10*60*60*1000}
+function worker(p){return `<div class="person ${isRecent(p)?'recent':''}" data-person="${p.id}" title="${isRecent(p)?'Movido recientemente · aviso durante 10 horas':'Mantén pulsado para mover'}"><div class="avatar">${esc(initials(p.name))}</div><div><b>${esc(p.name)}</b><small>${esc(p.job)}</small></div></div>`}
+let expiryTimer=null;
+function render(){
+ if(expiryTimer)clearTimeout(expiryTimer);const nextExpiry=data.people.filter(p=>p.movedAt&&isRecent(p)).reduce((m,p)=>Math.min(m,p.movedAt+10*60*60*1000),Infinity);if(Number.isFinite(nextExpiry))expiryTimer=setTimeout(render,Math.max(50,nextExpiry-Date.now()+100));
+ $('statSites').textContent=data.sites.length;$('statPeople').textContent=data.people.length;
+ const free=data.people.filter(p=>!p.site).length;$('statFree').textContent=free;$('freeCount').textContent=free+' personas';
+ $('sites').innerHTML=data.sites.map(s=>{let ps=data.people.filter(p=>p.site===s.id),open=expanded.has(s.id);return `<article class="site" data-drop="${s.id}"><div class="site-head" onclick="toggleSite('${s.id}')"><div class="site-icon">⌂</div><div class="site-info"><b>${esc(s.name)}</b><small>${esc(s.address||'Sin dirección')}</small></div><span class="count">${ps.length} pers.</span><span class="chev">${open?'⌃':'⌄'}</span></div><div class="site-body" ${open?'':'hidden'}><p class="drop-hint">Suelta aquí a un trabajador para asignarlo</p><div class="worker-list">${ps.length?ps.map(worker).join(''):'<div class="empty">Todavía no hay personal asignado</div>'}</div><div style="display:flex;justify-content:flex-end;margin-top:12px"><button class="btn ghost" style="color:#a33;font-size:19px;padding:7px 11px" aria-label="Eliminar obra" title="Eliminar obra" onclick="openDeleteSite('${s.id}')">🗑</button></div></div></article>`}).join('');
+ $('unassigned').innerHTML=data.people.filter(p=>!p.site).map(worker).join('')||'<div class="empty">Todo el personal está asignado</div>';
+ $('people').innerHTML=data.people.map(p=>{let s=data.sites.find(x=>x.id===p.site);return `<div class="person-row ${isRecent(p)?'recent':''}"><div class="avatar">${esc(initials(p.name))}</div><div class="details"><b>${esc(p.name)}</b><small>${esc(p.job)} · ${esc(p.phone||'Sin teléfono')}</small></div><span class="tag">${esc(s?s.name:'Disponible')}</span><button class="btn ghost" onclick="editPerson('${p.id}')">✎</button></div>`}).join('')||'<div class="empty">Añade tu primer trabajador.</div>';
+ bindDrags();
+}
+function toggleSite(id){expanded.has(id)?expanded.delete(id):expanded.add(id);render()}
+function showPage(page){$('sitesPage').classList.toggle('active',page==='sites');$('peoplePage').classList.toggle('active',page==='people');$('navSites').classList.toggle('active',page==='sites');$('navPeople').classList.toggle('active',page==='people')}
+function openModal(title,body){$('modalTitle').textContent=title;$('editor').innerHTML=body;$('overlay').classList.add('show')}
+function closeModal(){$('overlay').classList.remove('show')}
+function openSite(){editMode='site';editId=null;openModal('Crear nueva obra',`<div class="field"><label>Nombre de la obra *</label><input name="name" required placeholder="Ej. Reforma calle Mayor"></div><div class="field"><label>Dirección o referencia</label><input name="address" placeholder="Dirección, municipio..."></div><div class="field"><label>Notas</label><textarea name="note" placeholder="Detalles opcionales"></textarea></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="closeModal()">Cancelar</button><button class="btn">Guardar obra</button></div>`)}
+function openPerson(){editMode='person';editId=null;personForm({name:'',job:'',phone:'',site:''},'Crear trabajador')}
+function editPerson(id){let p=data.people.find(x=>x.id===id);editMode='person';editId=id;personForm(p,'Editar trabajador')}
+function personForm(p,title){openModal(title,`<div class="field"><label>Nombre completo *</label><input name="name" required value="${esc(p.name)}" placeholder="Nombre y apellidos"></div><div class="field"><label>Oficio / puesto</label><input name="job" value="${esc(p.job)}" placeholder="Ej. Oficial de 1ª"></div><div class="field"><label>Teléfono</label><input name="phone" type="tel" value="${esc(p.phone)}" placeholder="Teléfono"></div><div class="field"><label>Asignar a una obra</label><select name="site" style="width:100%;padding:13px;border:1px solid #dce3eb;border-radius:11px"><option value="">Sin asignar</option>${data.sites.map(s=>`<option value="${s.id}" ${p.site===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}</select></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="closeModal()">Cancelar</button>${editId?'<button type="button" class="btn ghost" onclick="deletePerson()">Borrar</button>':''}<button class="btn">Guardar</button></div>`)}
+function openDeleteSite(id){let s=data.sites.find(x=>x.id===id);if(!s)return;editMode='deleteSite';editId=id;openModal('Confirmar eliminación',`<p style="font-size:14px;line-height:1.5;color:#526174">Vas a eliminar <b>${esc(s.name)}</b>. Los trabajadores asignados pasarán a <b>Personal disponible</b>. Esta acción no se puede deshacer.</p><div class="field"><label>Escribe el nombre de la obra para confirmar</label><input name="confirmName" required autocomplete="off" placeholder="${esc(s.name)}"></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="closeModal()">Cancelar</button><button class="btn" style="background:#b64242">Eliminar definitivamente</button></div>`)}
+$('editor').addEventListener('submit',e=>{e.preventDefault();let f=new FormData(e.target),v=Object.fromEntries(f.entries());if(editMode==='movePerson'){let p=data.people.find(x=>x.id===editId);if(p){p.site=v.site||null;p.movedAt=Date.now();if(p.site)expanded.add(p.site)}closeModal();save();toast('Movimiento guardado · aviso amarillo durante 10 h');return}if(editMode==='deleteSite'){let s=data.sites.find(x=>x.id===editId);if(!s)return;if((v.confirmName||'').trim()!==s.name){alert('El nombre no coincide. No se ha eliminado la obra.');return}data.people.forEach(p=>{if(p.site===s.id)p.site=null});data.sites=data.sites.filter(x=>x.id!==s.id);expanded.delete(s.id);closeModal();save();toast('Obra eliminada; personal liberado');return}if(editMode==='site'){data.sites.push({id:'s'+Date.now(),name:v.name.trim(),address:v.address.trim(),note:v.note.trim()})}else{let p={id:editId||'p'+Date.now(),name:v.name.trim(),job:v.job.trim(),phone:v.phone.trim(),site:v.site||null};if(editId)data.people=data.people.map(x=>x.id===editId?p:x);else data.people.push(p)}closeModal();save();toast('Cambios guardados')});
+function deletePerson(){if(!editId)return;if(confirm('¿Borrar este trabajador?')){data.people=data.people.filter(p=>p.id!==editId);closeModal();save()}}
+let drag=null;
+let draggedJustNow=false;
+function bindDrags(){const touchDevice=('ontouchstart' in window)||((navigator.maxTouchPoints||0)>0);document.querySelectorAll('[data-person]').forEach(el=>{if(!touchDevice)el.addEventListener('pointerdown',startDrag);el.addEventListener('click',()=>{if(draggedJustNow){draggedJustNow=false;return}openMovePerson(el.dataset.person)})})}
+function openMovePerson(id){let p=data.people.find(x=>x.id===id);if(!p)return;editMode='movePerson';editId=id;openModal('Mover trabajador',`<p style="font-size:14px;color:#526174;margin-top:0">¿A qué obra quieres mover a <b>${esc(p.name)}</b>?</p><div class="field"><label>Destino</label><select name="site" style="width:100%;padding:13px;border:1px solid #dce3eb;border-radius:11px"><option value="">Personal disponible</option>${data.sites.map(s=>`<option value="${s.id}" ${p.site===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}</select></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="closeModal()">Cancelar</button><button class="btn">Confirmar movimiento</button></div>`)}
+function startDrag(e){if(e.button!==undefined&&e.button!==0)return;let el=e.currentTarget;drag={id:el.dataset.person,startX:e.clientX,startY:e.clientY,moved:false,el};}
+document.addEventListener('pointermove',e=>{if(!drag)return;let dx=e.clientX-drag.startX,dy=e.clientY-drag.startY;if(!drag.moved&&Math.hypot(dx,dy)<9)return;drag.moved=true;drag.el.classList.add('dragging');let g=$('ghost'),p=data.people.find(x=>x.id===drag.id);g.textContent='↗ '+p.name;g.style.display='block';g.style.left=Math.min(innerWidth-170,e.clientX+12)+'px';g.style.top=Math.max(8,e.clientY-20)+'px';document.querySelectorAll('.site').forEach(x=>x.classList.remove('drop-target'));let target=document.elementFromPoint(e.clientX,e.clientY)?.closest('[data-drop]');if(target?.classList.contains('site'))target.classList.add('drop-target')});
+document.addEventListener('pointerup',e=>{if(!drag)return;let d=drag;drag=null;$('ghost').style.display='none';document.querySelectorAll('.dragging').forEach(x=>x.classList.remove('dragging'));document.querySelectorAll('.drop-target').forEach(x=>x.classList.remove('drop-target'));if(!d.moved)return;draggedJustNow=true;setTimeout(()=>{draggedJustNow=false},350);let target=document.elementFromPoint(e.clientX,e.clientY)?.closest('[data-drop]');if(target){let p=data.people.find(x=>x.id===d.id);if(p){p.site=target.dataset.drop==='unassigned'?null:target.dataset.drop;p.movedAt=Date.now(); if(p.site)expanded.add(p.site);save();toast(p.name+' · movimiento registrado (10 h en amarillo)')}}});
+document.addEventListener('pointercancel',()=>{if(!drag)return;drag=null;$('ghost').style.display='none';document.querySelectorAll('.dragging').forEach(x=>x.classList.remove('dragging'));document.querySelectorAll('.drop-target').forEach(x=>x.classList.remove('drop-target'))});
+function toast(t){$('toast').textContent=t;$('toast').style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>$('toast').style.display='none',1900)}
+window.addEventListener('error',e=>{const box=document.getElementById('runtimeError');if(box){box.style.display='block';box.textContent='Ha ocurrido un error al iniciar la app: '+(e.message||'error desconocido')}});
+render();
+</script>
+</body></html>
